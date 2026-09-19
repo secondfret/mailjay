@@ -1,0 +1,24 @@
+{
+  "name": "emailapp",
+  "version": "1.0.0",
+  "description": "A personal macOS inbox triage app powered by Google's Gmail API and TypeSafe's Jev model.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secondfret/mailjay.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/secondfret/mailjay/issues"
+  },
+  "homepage": "https://github.com/secondfret/mailjay#readme",
+  "devDependencies": {
+    "wrangler": "^4.135.0"
+  }
+}

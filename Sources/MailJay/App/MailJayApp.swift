@@ -1,10 +1,16 @@
 import AppKit
+import Sparkle
 import SwiftUI
 
 @main
 struct MailJayApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @State private var store = AppStore()
+    private let updaterController = SPUStandardUpdaterController(
+        startingUpdater: true,
+        updaterDelegate: nil,
+        userDriverDelegate: nil
+    )
 
     var body: some Scene {
         WindowGroup("MailJay") {
@@ -43,6 +49,12 @@ struct MailJayApp: App {
                 }
                 .keyboardShortcut(.delete, modifiers: .command)
                 .disabled(store.currentBucketSelectedCount == 0 || store.phase.isBusy)
+            }
+
+            CommandGroup(after: .appInfo) {
+                Button("Check for Updates...") {
+                    updaterController.checkForUpdates(nil)
+                }
             }
 
             CommandMenu("Navigate") {

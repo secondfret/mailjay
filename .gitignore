@@ -1,7 +1,9 @@
-.build/
-dist/
-.DS_Store
-*.xcuserstate
-__pycache__/
 *.pyc
+*.xcuserstate
+.DS_Store
+.build/
+.wrangler/
 Config/GoogleOAuth.plist
+__pycache__/
+dist/
+node_modules/

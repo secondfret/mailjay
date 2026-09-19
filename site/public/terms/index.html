@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0f141c">
+    <title>MailJay Terms of Use</title>
+    <meta name="description" content="Terms of Use for the MailJay macOS app.">
+    <link rel="icon" href="/app-icon.png">
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0f141c;
+        --text: #f4f7fb;
+        --muted: #9aa7b8;
+        --line: rgba(255, 255, 255, .12);
+        --blue: #3b82f6;
+      }
+      * { box-sizing: border-box; }
+      html { background: var(--bg); }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Avenir Next", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+        background:
+          linear-gradient(180deg, rgba(15, 20, 28, .45), var(--bg) 78%),
+          radial-gradient(circle at 12% 10%, rgba(59, 130, 246, .18), transparent 32%),
+          var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      header, main, footer {
+        width: min(760px, calc(100% - 36px));
+        margin: 0 auto;
+      }
+      header { padding: 28px 0 8px; }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 800;
+      }
+      .brand img { width: 34px; height: 34px; border-radius: 8px; }
+      main { padding: 24px 0 48px; }
+      h1 { margin: 0 0 8px; font-size: clamp(32px, 5vw, 44px); letter-spacing: -0.03em; }
+      h2 { margin: 28px 0 10px; font-size: 20px; }
+      p, li { color: var(--muted); }
+      a { color: var(--blue); }
+      .meta { color: rgba(154, 167, 184, .85); font-size: 14px; margin-bottom: 28px; }
+      footer {
+        padding: 0 0 42px;
+        border-top: 1px solid var(--line);
+        padding-top: 18px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      footer a { margin-right: 16px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/">
+        <img src="/app-icon.png" alt="">
+        <span>MailJay</span>
+      </a>
+    </header>
+    <main>
+      <h1>Terms of Use</h1>
+      <p class="meta"><strong>Effective date:</strong> September 19, 2026</p>
+
+      <p>These Terms of Use govern your use of MailJay, a macOS application provided by Josh Johnson / Secondfret Software (“we”, “us”). By downloading or using MailJay, you agree to these terms.</p>
+
+      <h2>The service</h2>
+      <p>MailJay helps you triage Gmail by fetching recent inbox messages, suggesting categories with TypeSafe’s Jev model using your own API key, and applying archive, Trash, or label changes only after you review and approve them.</p>
+
+      <h2>Eligibility and accounts</h2>
+      <ul>
+        <li>You must be allowed to use Google/Gmail and TypeSafe under their own terms.</li>
+        <li>You are responsible for the Google account(s) you connect and for keeping your device secure.</li>
+        <li>You must provide your own TypeSafe Jev API key. MailJay does not sell Jev access.</li>
+      </ul>
+
+      <h2>Google and other third-party services</h2>
+      <p>MailJay uses Google OAuth and the Gmail API, and TypeSafe’s Jev API. Your use of those services is also subject to their terms and policies. We are not responsible for outages, policy changes, or billing from Google or TypeSafe.</p>
+
+      <h2>License</h2>
+      <p>We grant you a personal, non-exclusive, non-transferable license to install and use MailJay on Apple silicon Macs you own or control, for personal or internal business use. You may not reverse engineer the app except where applicable law allows, or redistribute modified copies as if they were official MailJay releases.</p>
+
+      <h2>Acceptable use</h2>
+      <ul>
+        <li>Do not use MailJay to violate Google’s, TypeSafe’s, or anyone else’s rights or policies.</li>
+        <li>Do not attempt to misuse OAuth credentials, update infrastructure, or the app to access mailboxes you are not authorized to use.</li>
+        <li>You are responsible for reviewing suggested actions before approving them.</li>
+      </ul>
+
+      <h2>No warranty</h2>
+      <p>MailJay is provided “as is” without warranties of any kind, express or implied, including fitness for a particular purpose and non-infringement. Classification suggestions can be wrong. Always review proposed actions before applying them.</p>
+
+      <h2>Limitation of liability</h2>
+      <p>To the fullest extent permitted by law, Secondfret Software and Josh Johnson are not liable for indirect, incidental, special, consequential, or punitive damages, or for lost mail, lost profits, or data loss arising from your use of MailJay, even if advised of the possibility. Our total liability for any claim relating to MailJay will not exceed US $0 if the app is provided free of charge, or the amount you paid us for MailJay in the 12 months before the claim if you paid us directly.</p>
+
+      <h2>Updates</h2>
+      <p>MailJay may check for and install updates via Sparkle from our Cloudflare-hosted release site. We may change or discontinue features at any time.</p>
+
+      <h2>Termination</h2>
+      <p>You may stop using MailJay at any time by uninstalling it and revoking MailJay’s access in your Google Account permissions. We may stop distributing the app or updates at any time.</p>
+
+      <h2>Changes to these terms</h2>
+      <p>We may update these terms by posting a new version on this page with a revised effective date. Continued use after changes means you accept the updated terms.</p>
+
+      <h2>Contact</h2>
+      <p><a href="mailto:secondfret@gmail.com">secondfret@gmail.com</a> or @secondfret on X.</p>
+      <p><strong>Josh Johnson</strong><br>Secondfret Software</p>
+    </main>
+    <footer>
+      <a href="/">MailJay</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </footer>
+  </body>
+</html>

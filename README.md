@@ -46,3 +46,19 @@ Or build/test without launching:
 swift build
 swift test
 ```
+
+## Release (signing / Sparkle / Cloudflare)
+
+Follow `AGENTS.md` and `SIGNING.md`. Short path:
+
+```sh
+VERSION=0.1.0 BUILD_NUMBER=1 NOTARY_KEYCHAIN_PROFILE=AgentScanNotary ./script/prepare_release.sh
+./script/deploy_cloudflare.sh
+```
+
+Public URLs:
+
+- Download worker: https://mailjay.secondfret.workers.dev/
+- Direct download: https://mailjay.secondfret.workers.dev/download
+- Marketing page: https://secondfret.net/mailjay/ (not linked from homepage yet)
+- Sparkle appcast: https://mailjay.secondfret.workers.dev/appcast.xml

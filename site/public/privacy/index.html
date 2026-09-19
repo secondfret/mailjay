@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0f141c">
+    <title>MailJay Privacy Policy</title>
+    <meta name="description" content="Privacy Policy for the MailJay macOS app.">
+    <link rel="icon" href="/app-icon.png">
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0f141c;
+        --text: #f4f7fb;
+        --muted: #9aa7b8;
+        --line: rgba(255, 255, 255, .12);
+        --blue: #3b82f6;
+      }
+      * { box-sizing: border-box; }
+      html { background: var(--bg); }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Avenir Next", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+        background:
+          linear-gradient(180deg, rgba(15, 20, 28, .45), var(--bg) 78%),
+          radial-gradient(circle at 12% 10%, rgba(59, 130, 246, .18), transparent 32%),
+          var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      header, main, footer {
+        width: min(760px, calc(100% - 36px));
+        margin: 0 auto;
+      }
+      header { padding: 28px 0 8px; }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 800;
+      }
+      .brand img { width: 34px; height: 34px; border-radius: 8px; }
+      main { padding: 24px 0 48px; }
+      h1 { margin: 0 0 8px; font-size: clamp(32px, 5vw, 44px); letter-spacing: -0.03em; }
+      h2 { margin: 28px 0 10px; font-size: 20px; }
+      p, li { color: var(--muted); }
+      a { color: var(--blue); }
+      .meta { color: rgba(154, 167, 184, .85); font-size: 14px; margin-bottom: 28px; }
+      footer {
+        padding: 0 0 42px;
+        border-top: 1px solid var(--line);
+        padding-top: 18px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      footer a { margin-right: 16px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/">
+        <img src="/app-icon.png" alt="">
+        <span>MailJay</span>
+      </a>
+    </header>
+    <main>
+      <h1>Privacy Policy</h1>
+      <p class="meta"><strong>Effective date:</strong> September 19, 2026</p>
+
+      <p>MailJay is a macOS app by Josh Johnson / Secondfret Software. This policy explains what data MailJay accesses, where it is stored, and who it is sent to.</p>
+
+      <h2>Summary</h2>
+      <p>MailJay does not operate a Secondfret backend that stores your email. Gmail access tokens and your Jev API key stay on your Mac. Message content is sent only to Google (to read and modify your mailbox) and to TypeSafe’s Jev API (to classify mail), using credentials you control.</p>
+
+      <h2>Information MailJay accesses</h2>
+      <ul>
+        <li><strong>Gmail account data</strong> after you sign in with Google OAuth. MailJay requests the <code>gmail.modify</code> scope so it can read inbox messages and, only when you approve an action, archive mail, move mail to Trash, or apply <code>Jev/…</code> labels.</li>
+        <li><strong>Message metadata and content</strong> needed for triage (for example sender, subject, snippet/body text) so Jev can suggest a category.</li>
+        <li><strong>Your TypeSafe Jev API key</strong>, which you paste into the app.</li>
+      </ul>
+
+      <h2>Where data is stored</h2>
+      <ul>
+        <li><strong>Mac Keychain:</strong> Google OAuth tokens and your Jev API key.</li>
+        <li><strong>Local app storage on your Mac:</strong> triage categories, preferences, and a local cache of loaded triage results.</li>
+        <li>MailJay does not upload your mailbox, tokens, or API key to secondfret.net or any Secondfret server.</li>
+      </ul>
+
+      <h2>Third-party services</h2>
+      <ul>
+        <li><strong>Google / Gmail:</strong> authentication and Gmail API access. Google’s own policies apply to your Google account.</li>
+        <li><strong>TypeSafe Jev:</strong> MailJay sends message text/snippets and your category criteria to TypeSafe’s API using <em>your</em> API key so Jev can return a category suggestion. TypeSafe’s policies apply to that processing.</li>
+        <li><strong>Sparkle / Cloudflare:</strong> the app may check for updates and download signed update packages from MailJay’s Cloudflare-hosted release site. Update checks do not include your Gmail content.</li>
+      </ul>
+
+      <h2>What MailJay does not do</h2>
+      <ul>
+        <li>No ads, no analytics SDKs, and no sale of personal information.</li>
+        <li>No permanent delete from Gmail via the app’s delete action — messages are moved to Gmail Trash.</li>
+        <li>No archive, trash, or label changes until you explicitly approve them in the app.</li>
+      </ul>
+
+      <h2>Children</h2>
+      <p>MailJay is not directed at children under 13, and we do not knowingly collect personal information from children.</p>
+
+      <h2>Changes</h2>
+      <p>This policy may be updated from time to time. The effective date at the top of this page will change when it does. Continued use of MailJay after an update means you accept the revised policy.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about this policy: <a href="mailto:secondfret@gmail.com">secondfret@gmail.com</a> or @secondfret on X.</p>
+      <p><strong>Josh Johnson</strong><br>Secondfret Software</p>
+    </main>
+    <footer>
+      <a href="/">MailJay</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </footer>
+  </body>
+</html>
