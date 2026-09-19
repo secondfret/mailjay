@@ -3,6 +3,20 @@
     <channel>
         <title>MailJay</title>
         <item>
+            <title>0.1.1</title>
+            <pubDate>Sat, 19 Sep 2026 12:15:50 -0700</pubDate>
+            <link>https://mailjay.secondfret.workers.dev/</link>
+            <sparkle:version>2</sparkle:version>
+            <sparkle:shortVersionString>0.1.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <sparkle:releaseNotesLink>https://mailjay.secondfret.workers.dev/downloads/MailJay-0.1.1.html</sparkle:releaseNotesLink>
+            <enclosure url="https://mailjay.secondfret.workers.dev/downloads/MailJay-0.1.1.zip" length="12434551" type="application/octet-stream" sparkle:edSignature="kupR6t+b+VbKnM9HIG0flfDXnYm3DCix/FLcDwelxx9mvsd0eiGStr3CQsGkaa/J2xBvT7egAlwSP10/AyVtBA=="/>
+            <sparkle:deltas>
+                <enclosure url="https://mailjay.secondfret.workers.dev/downloads/MailJay2-1.delta" sparkle:deltaFrom="1" length="65702" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="SupCRxrrOHf/fLqXETujE9b+h3M2I7Q3N9h+3Ft5TgFapeXGnWxgTq5FfVw2wQTq+0dCOxphZBUiilZZabkFDg=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>0.1.0</title>
             <pubDate>Sat, 19 Sep 2026 11:21:29 -0700</pubDate>
             <link>https://mailjay.secondfret.workers.dev/</link>

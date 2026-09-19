@@ -1,4 +1,4 @@
-const latestVersion = "0.1.0";
+const latestVersion = "0.1.1";
 
 export default {
   async fetch(request, env) {

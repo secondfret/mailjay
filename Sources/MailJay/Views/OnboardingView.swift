@@ -387,11 +387,14 @@ struct OnboardingView: View {
     }
 
     private func bundleImage(named name: String) -> NSImage? {
+        // Never touch Bundle.module here: SPM's Bundle.module asserts when its
+        // resource bundle isn't discoverable in a packaged .app, and that kills
+        // first-launch onboarding on a fresh Mac.
         let candidates: [URL?] = [
             Bundle.main.url(forResource: name, withExtension: "png", subdirectory: "Onboarding"),
             Bundle.main.url(forResource: name, withExtension: "png"),
-            Bundle.module.url(forResource: name, withExtension: "png", subdirectory: "Onboarding"),
-            Bundle.module.url(forResource: name, withExtension: "png"),
+            Bundle.main.resourceURL?
+                .appending(path: "Onboarding/\(name).png", directoryHint: .notDirectory),
             Bundle.main.bundleURL
                 .appending(path: "Contents/Resources/Onboarding/\(name).png", directoryHint: .notDirectory)
         ]
