@@ -1,6 +1,5 @@
 .build/
 dist/
-Vendor/
 .DS_Store
 *.xcuserstate
 __pycache__/

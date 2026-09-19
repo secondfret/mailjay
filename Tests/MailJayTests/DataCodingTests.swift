@@ -49,7 +49,7 @@ final class DataCodingTests: XCTestCase {
             "id": "ads",
             "title": "Ads & Promos",
             "systemImage": "megaphone",
-            "modelLabel": "old needle phrase",
+            "modelLabel": "old unused phrase",
             "modelDescription": "Promo mail.",
             "gmailLabelName": null,
             "sortOrder": 0

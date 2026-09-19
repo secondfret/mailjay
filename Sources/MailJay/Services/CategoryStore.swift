@@ -19,7 +19,7 @@ struct CategoryStore: Sendable {
             return MailCategory.defaults
         }
         let categories = decoded.sorted { $0.sortOrder < $1.sortOrder }
-        // Rewrite legacy blobs (e.g. Needle-era `modelLabel`) into the Jev-focused schema
+        // Rewrite legacy blobs (e.g. unused `modelLabel`) into the Jev-focused schema
         // without wiping the user's categories.
         if needsSchemaRewrite(data) {
             try? save(categories)

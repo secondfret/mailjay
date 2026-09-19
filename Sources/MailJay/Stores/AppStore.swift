@@ -31,7 +31,7 @@ final class AppStore {
     init(cache: TriageCache = TriageCache()) {
         self.cache = cache
         let secrets = keychain.loadSecrets()
-        // Drop legacy classifier-provider preference (Needle / GLiNER era).
+        // Drop obsolete preference from an earlier local-classifier experiment.
         UserDefaults.standard.removeObject(forKey: "classifier-provider")
         let storedMax = UserDefaults.standard.object(forKey: "max-messages") as? Int
         let storedInterval = UserDefaults.standard.object(forKey: "auto-fetch-interval-minutes") as? Int

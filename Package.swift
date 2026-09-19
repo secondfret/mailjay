@@ -12,8 +12,7 @@ let package = Package(
             name: "MailJay",
             path: "Sources/MailJay",
             exclude: [
-                "Resources/AppIcon.icns",
-                "Resources/__pycache__"
+                "Resources/AppIcon.icns"
             ],
             resources: [
                 .copy("Resources/Onboarding")
