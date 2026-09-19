@@ -5,18 +5,22 @@ struct WelcomeView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Image(systemName: statusImage)
+            Image(systemName: emptyState.symbol)
                 .font(.system(size: 40, weight: .light))
                 .foregroundStyle(MailJayTheme.textTertiary)
-            Text(statusTitle)
+            Text(emptyState.title)
                 .font(.system(size: 22, weight: .semibold))
                 .foregroundStyle(MailJayTheme.textPrimary)
-            Text(statusMessage)
-                .font(.system(size: 13))
-                .foregroundStyle(MailJayTheme.textSecondary)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: 420)
-            if !store.isConnected {
+            if !emptyState.message.isEmpty {
+                Text(emptyState.message)
+                    .font(.system(size: 13))
+                    .foregroundStyle(MailJayTheme.textSecondary)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: 420)
+            }
+
+            switch emptyState.action {
+            case .connect:
                 HStack(spacing: 12) {
                     SettingsLink {
                         Text("Open Settings")
@@ -25,31 +29,20 @@ struct WelcomeView: View {
                     }
                     .buttonStyle(.plain)
 
-                    Button("Connect Gmail") { Task { await store.addAccount() } }
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 8)
-                        .background(
-                            RoundedRectangle(cornerRadius: MailJayTheme.radiusSm, style: .continuous)
-                                .fill(MailJayTheme.accent)
-                        )
-                        .buttonStyle(.plain)
+                    primaryButton("Connect Gmail") {
+                        Task { await store.addAccount() }
+                    }
                 }
                 .padding(.top, 4)
-            } else if !store.phase.isBusy {
-                Button("Scan Inbox") { Task { await store.scanInbox() } }
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .background(
-                        RoundedRectangle(cornerRadius: MailJayTheme.radiusSm, style: .continuous)
-                            .fill(MailJayTheme.accent)
-                    )
-                    .buttonStyle(.plain)
-                    .padding(.top, 4)
+            case .scan:
+                primaryButton("Scan Inbox") {
+                    Task { await store.scanInbox() }
+                }
+                .padding(.top, 4)
+            case .none:
+                EmptyView()
             }
+
             if case .loading(let message) = store.phase {
                 ProgressView(message)
                     .tint(MailJayTheme.accent)
@@ -64,12 +57,59 @@ struct WelcomeView: View {
         .background(MailJayTheme.canvas)
     }
 
-    private var statusImage: String { store.isConnected ? "sparkles" : "envelope.badge.shield.half.filled" }
-    private var statusTitle: String { store.isConnected ? "Ready to triage" : "Connect your private inbox" }
-    private var statusMessage: String {
-        store.isConnected
-            ? "Review buckets, select messages, then Archive or Delete. Nothing changes in Gmail until you click one of those actions."
-            : "Authorize Gmail to get started\(classifierSetupHint). Tokens are stored in your Mac keychain."
+    private var emptyState: DetailEmptyState {
+        if !store.isConnected {
+            return DetailEmptyState(
+                symbol: "envelope.badge.shield.half.filled",
+                title: "Connect your private inbox",
+                message: "Authorize Gmail to get started\(classifierSetupHint). Tokens are stored in your Mac keychain.",
+                action: .connect
+            )
+        }
+
+        if store.phase.isBusy {
+            return DetailEmptyState(
+                symbol: "bird.circle.fill",
+                title: "Working…",
+                message: "",
+                action: .none
+            )
+        }
+
+        let pending = store.results.filter(\.isPending)
+        if pending.isEmpty {
+            if store.results.isEmpty {
+                return DetailEmptyState(
+                    symbol: "bird.circle.fill",
+                    title: "Ready to triage",
+                    message: "Scan your inbox to classify recent mail into buckets. Nothing changes in Gmail until you Archive or Delete.",
+                    action: .scan
+                )
+            }
+            return DetailEmptyState(
+                symbol: "checkmark.circle",
+                title: "You’re caught up",
+                message: "No pending mail left to triage. Scan again anytime for new messages.",
+                action: .none
+            )
+        }
+
+        if store.filteredResults.isEmpty {
+            let categoryTitle = store.title(forCategoryID: store.selectedCategoryID)
+            return DetailEmptyState(
+                symbol: "tray",
+                title: "No mail in \(categoryTitle)",
+                message: "Pick another category in the sidebar, or select a message from All Results.",
+                action: .none
+            )
+        }
+
+        return DetailEmptyState(
+            symbol: "envelope.open",
+            title: "Select a message",
+            message: "Choose an email from the list to read it and review Jev’s suggestion.",
+            action: .none
+        )
     }
 
     private var classifierSetupHint: String {
@@ -77,4 +117,30 @@ struct WelcomeView: View {
             ? " (add your TypeSafe Jev API key in Settings first)"
             : ""
     }
+
+    private func primaryButton(_ title: String, action: @escaping () -> Void) -> some View {
+        Button(title, action: action)
+            .font(.system(size: 13, weight: .semibold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .background(
+                RoundedRectangle(cornerRadius: MailJayTheme.radiusSm, style: .continuous)
+                    .fill(MailJayTheme.accent)
+            )
+            .buttonStyle(.plain)
+    }
+}
+
+private struct DetailEmptyState {
+    enum Action {
+        case none
+        case connect
+        case scan
+    }
+
+    let symbol: String
+    let title: String
+    let message: String
+    let action: Action
 }

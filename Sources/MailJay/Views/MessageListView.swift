@@ -112,8 +112,7 @@ struct MessageListView: View {
             } label: {
                 BusyActionIcon(
                     systemName: "arrow.clockwise",
-                    isBusy: store.phase.isScanning || store.backgroundSyncStatus != nil,
-                    style: .spin
+                    isBusy: store.phase.isScanning || store.backgroundSyncStatus != nil
                 )
             }
 
@@ -127,9 +126,8 @@ struct MessageListView: View {
                 Task { await store.reclassifyLoaded() }
             } label: {
                 BusyActionIcon(
-                    systemName: "sparkles.rectangle.stack",
-                    isBusy: store.phase.isRecategorizing,
-                    style: .spin
+                    systemName: "envelope.stack",
+                    isBusy: store.phase.isRecategorizing
                 )
             }
 
@@ -172,20 +170,47 @@ struct MessageListView: View {
     }
 
     private var emptyState: some View {
-        VStack(spacing: 10) {
+        let content = listEmptyContent
+        return VStack(spacing: 10) {
             Spacer()
-            Image(systemName: searchText.isEmpty ? "tray" : "magnifyingglass")
+            Image(systemName: content.symbol)
                 .font(.system(size: 28, weight: .light))
                 .foregroundStyle(MailJayTheme.textTertiary)
-            Text(searchText.isEmpty ? "No classified mail" : "No results")
+            Text(content.title)
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(MailJayTheme.textSecondary)
-            Text(searchText.isEmpty ? "Connect Gmail, then scan your inbox." : "Try a different search.")
+            Text(content.message)
                 .font(.system(size: 12))
                 .foregroundStyle(MailJayTheme.textTertiary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 24)
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var listEmptyContent: (symbol: String, title: String, message: String) {
+        if !searchText.isEmpty {
+            return ("magnifyingglass", "No results", "Try a different search.")
+        }
+        if !store.isConnected {
+            return ("tray", "No account connected", "Connect Gmail from the sidebar to get started.")
+        }
+        if store.phase.isScanning || store.backgroundSyncStatus != nil {
+            return ("arrow.clockwise", "Scanning inbox…", "New mail will show up here as it’s classified.")
+        }
+        if store.results.isEmpty {
+            return ("tray", "Inbox not scanned yet", "Use Scan Inbox or the refresh button to classify recent mail.")
+        }
+        let pending = store.results.filter(\.isPending)
+        if pending.isEmpty {
+            return ("checkmark.circle", "You’re caught up", "Nothing left to triage. Scan again anytime for new mail.")
+        }
+        if store.selectedCategoryID == CategoryID.uncertain {
+            return ("questionmark.circle", "Nothing needs review", "Low-confidence messages will appear here.")
+        }
+        let categoryTitle = store.title(forCategoryID: store.selectedCategoryID)
+        return ("tray", "No mail in \(categoryTitle)", "Try another category, or scan for new mail.")
     }
 }
 
@@ -256,31 +281,80 @@ private struct MessageRow: View {
     }
 }
 
-/// Action glyph that keeps animating while a long job runs (macOS 14+).
+/// Idle: action glyph. Busy: dotted squircle with a few randomly lit dots cycling.
 private struct BusyActionIcon: View {
-    enum Style {
-        case spin
-        case pulse
-    }
-
     let systemName: String
     let isBusy: Bool
-    let style: Style
 
     var body: some View {
-        switch style {
-        case .spin:
-            TimelineView(.animation(minimumInterval: 1.0 / 30.0, paused: !isBusy)) { context in
+        Group {
+            if isBusy {
+                DottedBusyIndicator()
+            } else {
                 Image(systemName: systemName)
-                    .rotationEffect(.degrees(isBusy ? spinDegrees(at: context.date) : 0))
             }
-        case .pulse:
-            Image(systemName: systemName)
-                .symbolEffect(.pulse, options: .repeating, isActive: isBusy)
         }
+        .frame(width: 14, height: 14)
+    }
+}
+
+/// Soft nod to `app.background.dotted`: mostly dim dots, a few lit ones that reshuffle.
+private struct DottedBusyIndicator: View {
+    private static let columns = 6
+    private static let litCount = 5
+    private static let tickDuration = 0.084
+
+    /// 6×6 with corners removed (matches the SF Symbol silhouette).
+    private static let positions: [(row: Int, col: Int)] = {
+        (0..<columns).flatMap { row in
+            (0..<columns).compactMap { col in
+                let isCorner = (row == 0 || row == columns - 1) && (col == 0 || col == columns - 1)
+                return isCorner ? nil : (row, col)
+            }
+        }
+    }()
+
+    var body: some View {
+        TimelineView(.animation(minimumInterval: Self.tickDuration, paused: false)) { context in
+            let lit = Self.litIndices(at: context.date)
+            Canvas { context, size in
+                let cell = size.width / CGFloat(Self.columns)
+                for (index, position) in Self.positions.enumerated() {
+                    let isInner = (1...4).contains(position.row) && (1...4).contains(position.col)
+                    let diameter = cell * (isInner ? 0.42 : 0.30)
+                    let origin = CGPoint(
+                        x: (CGFloat(position.col) + 0.5) * cell - diameter / 2,
+                        y: (CGFloat(position.row) + 0.5) * cell - diameter / 2
+                    )
+                    let rect = CGRect(origin: origin, size: CGSize(width: diameter, height: diameter))
+                    context.opacity = lit.contains(index) ? 1.0 : 0.22
+                    context.fill(Path(ellipseIn: rect), with: .foreground)
+                }
+            }
+        }
+        .accessibilityLabel("Working")
     }
 
-    private func spinDegrees(at date: Date) -> Double {
-        date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 0.9) / 0.9 * 360
+    private static func litIndices(at date: Date) -> Set<Int> {
+        let tick = Int(date.timeIntervalSinceReferenceDate / tickDuration)
+        var generator = SeededGenerator(seed: UInt64(truncatingIfNeeded: tick) &+ 1)
+        return Set((0..<positions.count).shuffled(using: &generator).prefix(litCount))
+    }
+}
+
+/// Deterministic RNG so TimelineView redraws stay stable within a tick.
+private struct SeededGenerator: RandomNumberGenerator {
+    private var state: UInt64
+
+    init(seed: UInt64) {
+        state = seed == 0 ? 0xDEAD_BEEF : seed
+    }
+
+    mutating func next() -> UInt64 {
+        state = state &+ 0x9E37_79B9_7F4A_7C15
+        var z = state
+        z = (z ^ (z >> 30)) &* 0xBF58_476D_1CE4_E5B9
+        z = (z ^ (z >> 27)) &* 0x94D0_49BB_1331_11EB
+        return z ^ (z >> 31)
     }
 }

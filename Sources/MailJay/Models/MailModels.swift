@@ -158,9 +158,12 @@ struct AppConfiguration: Equatable, Sendable {
     var confidenceThreshold: Double
     /// Minutes between automatic inbox scans for all accounts. `0` disables auto-fetch.
     var autoFetchIntervalMinutes: Int
+    /// When true, HTML email may load remote http(s) images. When false, CSP blocks them for privacy.
+    var loadRemoteImages: Bool
 
     static let defaultMaxMessages = 300
     static let defaultAutoFetchIntervalMinutes = 15
+    static let defaultLoadRemoteImages = true
     static let autoFetchIntervalChoices = [0, 5, 10, 15, 30, 60]
 
     static let empty = AppConfiguration(
@@ -169,7 +172,8 @@ struct AppConfiguration: Equatable, Sendable {
         jevAPIKey: "",
         maxMessages: defaultMaxMessages,
         confidenceThreshold: 0.45,
-        autoFetchIntervalMinutes: defaultAutoFetchIntervalMinutes
+        autoFetchIntervalMinutes: defaultAutoFetchIntervalMinutes,
+        loadRemoteImages: defaultLoadRemoteImages
     )
 
     var isComplete: Bool {

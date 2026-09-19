@@ -240,7 +240,7 @@ struct OnboardingView: View {
                     keys: ["⇧", "⌘", "R"]
                 )
                 actionRow(
-                    systemImage: "sparkles.rectangle.stack",
+                    systemImage: "envelope.stack",
                     title: "Re-categorize loaded mail",
                     keys: ["⌥", "⌘", "R"]
                 )

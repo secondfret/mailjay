@@ -52,6 +52,12 @@ struct SettingsView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+            Section("Privacy") {
+                Toggle("Load remote images", isOn: $draft.loadRemoteImages)
+                Text("On by default so newsletters and HTML mail look complete. Turn off to block remote images and tracking pixels; senders won’t learn that you opened the message.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             HStack {
                 Button("Save") { save() }
                     .buttonStyle(.borderedProminent)
@@ -71,7 +77,7 @@ struct SettingsView: View {
         }
         .formStyle(.grouped)
         .padding()
-        .frame(width: 560, height: 640)
+        .frame(width: 560, height: 720)
         .onAppear {
             draft = store.configuration
             saveMessage = ""

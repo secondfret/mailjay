@@ -4,6 +4,7 @@ import WebKit
 
 struct EmailHTMLView: NSViewRepresentable {
     let html: String
+    var loadRemoteImages: Bool = AppConfiguration.defaultLoadRemoteImages
 
     func makeCoordinator() -> Coordinator {
         Coordinator()
@@ -21,13 +22,20 @@ struct EmailHTMLView: NSViewRepresentable {
     }
 
     func updateNSView(_ webView: WKWebView, context: Context) {
-        guard context.coordinator.loadedHTML != html else { return }
+        guard context.coordinator.loadedHTML != html
+            || context.coordinator.loadedRemoteImages != loadRemoteImages
+        else { return }
         context.coordinator.loadedHTML = html
-        webView.loadHTMLString(EmailHTMLDocument.make(from: html), baseURL: nil)
+        context.coordinator.loadedRemoteImages = loadRemoteImages
+        webView.loadHTMLString(
+            EmailHTMLDocument.make(from: html, loadRemoteImages: loadRemoteImages),
+            baseURL: nil
+        )
     }
 
     final class Coordinator: NSObject, WKNavigationDelegate {
         var loadedHTML: String?
+        var loadedRemoteImages: Bool?
 
         func webView(
             _ webView: WKWebView,
@@ -47,14 +55,15 @@ struct EmailHTMLView: NSViewRepresentable {
 }
 
 enum EmailHTMLDocument {
-    static func make(from source: String) -> String {
+    static func make(from source: String, loadRemoteImages: Bool = AppConfiguration.defaultLoadRemoteImages) -> String {
         let safeSource = source.replacingOccurrences(
             of: #"(?is)<script\b[^>]*>.*?</script\s*>"#,
             with: "",
             options: .regularExpression
         )
+        let imgSrc = loadRemoteImages ? "img-src data: https: http:" : "img-src data:"
         let head = """
-        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; font-src data:; base-uri 'none'; form-action 'none'">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; \(imgSrc); style-src 'unsafe-inline'; font-src data:; base-uri 'none'; form-action 'none'">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
           html { color-scheme: dark; background: #222222; }

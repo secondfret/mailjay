@@ -36,7 +36,8 @@ final class DataCodingTests: XCTestCase {
             jevAPIKey: "key",
             maxMessages: 300,
             confidenceThreshold: 0.45,
-            autoFetchIntervalMinutes: 15
+            autoFetchIntervalMinutes: 15,
+            loadRemoteImages: true
         )
         // Completeness requires the embedded OAuth plist in this build.
         XCTAssertEqual(configured.isComplete, BundledGoogleOAuth.isConfigured)
@@ -137,10 +138,26 @@ final class DataCodingTests: XCTestCase {
     }
 
     func testRenderedEmailDisablesRemoteContentAndScripts() {
-        let document = EmailHTMLDocument.make(from: "<script>track()</script><p>Hello</p><img src=\"https://tracker.example/pixel\">")
+        let document = EmailHTMLDocument.make(
+            from: "<script>track()</script><p>Hello</p><img src=\"https://tracker.example/pixel\">",
+            loadRemoteImages: false
+        )
 
         XCTAssertTrue(document.contains("Content-Security-Policy"))
         XCTAssertTrue(document.contains("img-src data:"))
+        XCTAssertFalse(document.contains("img-src data: https: http:"))
+        XCTAssertFalse(document.localizedCaseInsensitiveContains("<script"))
+        XCTAssertTrue(document.contains("<p>Hello</p>"))
+    }
+
+    func testRenderedEmailAllowsRemoteImagesWhenEnabled() {
+        let document = EmailHTMLDocument.make(
+            from: "<script>track()</script><p>Hello</p><img src=\"https://cdn.example/logo.png\">",
+            loadRemoteImages: true
+        )
+
+        XCTAssertTrue(document.contains("Content-Security-Policy"))
+        XCTAssertTrue(document.contains("img-src data: https: http:"))
         XCTAssertFalse(document.localizedCaseInsensitiveContains("<script"))
         XCTAssertTrue(document.contains("<p>Hello</p>"))
     }

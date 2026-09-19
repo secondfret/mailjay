@@ -43,7 +43,9 @@ final class AppStore {
             confidenceThreshold: UserDefaults.standard.object(forKey: "confidence-threshold") as? Double ?? 0.45,
             autoFetchIntervalMinutes: Self.normalizedAutoFetchInterval(
                 storedInterval ?? AppConfiguration.defaultAutoFetchIntervalMinutes
-            )
+            ),
+            loadRemoteImages: UserDefaults.standard.object(forKey: "load-remote-images") as? Bool
+                ?? AppConfiguration.defaultLoadRemoteImages
         )
         accounts = secrets.accounts
         activeAccountEmail = secrets.activeAccountEmail ?? secrets.accounts.first?.email
@@ -227,6 +229,7 @@ final class AppStore {
         UserDefaults.standard.set(normalized.maxMessages, forKey: "max-messages")
         UserDefaults.standard.set(normalized.confidenceThreshold, forKey: "confidence-threshold")
         UserDefaults.standard.set(normalized.autoFetchIntervalMinutes, forKey: "auto-fetch-interval-minutes")
+        UserDefaults.standard.set(normalized.loadRemoteImages, forKey: "load-remote-images")
         restartAutoFetchLoop()
     }
 

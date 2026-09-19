@@ -59,7 +59,7 @@ struct MessageDetailView: View {
             .padding(.bottom, 14)
 
             if let html = result.message.htmlBody, !html.isEmpty {
-                EmailHTMLView(html: html)
+                EmailHTMLView(html: html, loadRemoteImages: store.configuration.loadRemoteImages)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 ScrollView {
@@ -83,7 +83,7 @@ struct MessageDetailView: View {
     private var suggestionStrip: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
-                Image(systemName: "sparkles")
+                Image(systemName: "bird.circle.fill")
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(MailJayTheme.accent)
                 Text("\(suggestionTitle)’s suggestion")

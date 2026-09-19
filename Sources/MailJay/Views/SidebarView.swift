@@ -200,21 +200,21 @@ struct SidebarView: View {
 
             footerDivider
 
-            footerRow(title: "Help", systemImage: "questionmark.circle") {
-                store.presentOnboarding()
-            }
-            .help("Show onboarding")
-
-            footerDivider
-
             SettingsLink {
                 footerLabel(title: "Settings", systemImage: "gearshape")
             }
             .buttonStyle(.plain)
+
+            footerDivider
+
+            footerRow(title: "Help", systemImage: "questionmark.circle") {
+                store.presentOnboarding()
+            }
+            .help("Show onboarding")
         }
         .background(
             RoundedRectangle(cornerRadius: MailJayTheme.radiusSm, style: .continuous)
-                .fill(MailJayTheme.card)
+                .fill(MailJayTheme.sidebar)
         )
         .padding(14)
         .background(MailJayTheme.sidebar)
