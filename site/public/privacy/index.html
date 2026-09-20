@@ -68,19 +68,68 @@
     </header>
     <main>
       <h1>Privacy Policy</h1>
-      <p class="meta"><strong>Effective date:</strong> September 19, 2026</p>
+      <p class="meta"><strong>Effective date:</strong> September 20, 2026</p>
 
-      <p>MailJay is a macOS app by Josh Johnson / Secondfret Software. This policy explains what data MailJay accesses, where it is stored, and who it is sent to.</p>
+      <p>MailJay is a macOS app by Josh Johnson / Secondfret Software. This policy explains how MailJay accesses, uses, stores, shares, protects, and deletes Google user data and other information related to the app.</p>
 
       <h2>Summary</h2>
-      <p>MailJay does not operate a Secondfret backend that stores your email. Gmail access tokens and your Jev API key stay on your Mac. Message content is sent only to Google (to read and modify your mailbox) and to TypeSafe’s Jev API (to classify mail), using credentials you control.</p>
+      <p>MailJay does not operate a Secondfret backend that stores your email. Google OAuth tokens and your Jev API key stay on your Mac. Message content is sent only to Google (to read and modify your mailbox) and to TypeSafe’s Jev API (to classify mail), using credentials you control. Secondfret does not sell Google user data and does not use it for advertising.</p>
 
       <h2>Information MailJay accesses</h2>
       <ul>
-        <li><strong>Gmail account data</strong> after you sign in with Google OAuth. MailJay requests the <code>gmail.modify</code> scope so it can read inbox messages and, only when you approve an action, archive mail, move mail to Trash, or apply <code>Jev/…</code> labels.</li>
-        <li><strong>Message metadata and content</strong> needed for triage (for example sender, subject, snippet/body text) so Jev can suggest a category.</li>
+        <li><strong>Gmail account data</strong> after you sign in with Google OAuth. MailJay requests the <code>https://www.googleapis.com/auth/gmail.modify</code> scope so it can read inbox messages and, only when you approve an action, archive mail, move mail to Gmail Trash, or apply <code>Jev/…</code> labels.</li>
+        <li><strong>Message metadata and content</strong> needed for triage (for example sender, subject, snippet or body text) so Jev can suggest a category.</li>
         <li><strong>Your TypeSafe Jev API key</strong>, which you paste into the app.</li>
+        <li><strong>App preferences</strong> stored locally (for example message fetch limits and auto-fetch settings).</li>
       </ul>
+
+      <h2>How Google user data is used</h2>
+      <p>MailJay uses Google user data only to provide user-facing inbox triage features in the app:</p>
+      <ul>
+        <li>Fetch and display recent Gmail messages for review.</li>
+        <li>Send message text needed for classification to TypeSafe’s Jev API using your API key.</li>
+        <li>Apply archive, trash, or label changes that you explicitly approve in the app.</li>
+      </ul>
+      <p>MailJay does not use Google user data for advertising, credit decisions, or unrelated analytics. Use is limited to the practices described in this policy.</p>
+
+      <h2 id="sharing">How Google user data is shared, transferred, or disclosed</h2>
+      <p>MailJay shares or transfers Google user data only as follows:</p>
+      <ul>
+        <li><strong>Google / Gmail:</strong> MailJay sends API requests to Google to authenticate you and to read or modify your mailbox under the scopes you grant. Google processes that data under Google’s own policies for your Google account.</li>
+        <li><strong>TypeSafe (Jev):</strong> To categorize mail, MailJay sends message text or snippets and your category descriptions to TypeSafe’s Jev API using <em>your</em> TypeSafe API key. TypeSafe processes that content to return a category suggestion under TypeSafe’s policies. Secondfret does not operate or control TypeSafe’s servers.</li>
+        <li><strong>Secondfret Software:</strong> MailJay does <strong>not</strong> upload your Gmail messages, OAuth tokens, or Jev API key to secondfret.net or any Secondfret-operated backend. Josh Johnson / Secondfret Software does not receive copies of your mailbox contents through the app.</li>
+        <li><strong>No sale or ads:</strong> We do not sell Google user data. We do not transfer Google user data to advertising platforms, data brokers, or information resellers. We do not use Google user data to serve ads.</li>
+        <li><strong>Legal / safety exceptions:</strong> We may disclose information if required by applicable law, regulation, legal process, or governmental request, or to protect the security, rights, or safety of users or the public, when we believe disclosure is reasonably necessary. Because MailJay does not host your Gmail data on Secondfret servers, Secondfret typically has no mailbox content to disclose.</li>
+        <li><strong>Business transfer:</strong> If Secondfret Software is involved in a merger, acquisition, or sale of assets, we would obtain your explicit prior consent before transferring Google user data as part of that transaction, consistent with Google’s Limited Use requirements.</li>
+      </ul>
+      <p>App update checks contact MailJay’s Cloudflare-hosted release site (Sparkle). Those requests do not include your Gmail message content or OAuth tokens.</p>
+
+      <h2 id="protection">Data protection</h2>
+      <p>MailJay protects sensitive data with the following mechanisms:</p>
+      <ul>
+        <li><strong>Local storage of secrets:</strong> Google OAuth access and refresh tokens and your Jev API key are stored in the macOS Keychain on your Mac.</li>
+        <li><strong>Local-only mailbox cache:</strong> Triage results, categories, and preferences are stored in local application support files on your Mac. They are not synced to Secondfret servers.</li>
+        <li><strong>Encrypted transport:</strong> Network requests to Google and TypeSafe use HTTPS.</li>
+        <li><strong>User-approved mailbox changes:</strong> Archive, trash, and label modifications are not applied until you confirm them in the app.</li>
+        <li><strong>No Secondfret cloud copy:</strong> Because Secondfret does not host your Gmail data, there is no Secondfret server-side copy of your mailbox for attackers to breach through our infrastructure.</li>
+        <li><strong>Device security:</strong> Protection also depends on your Mac’s lock screen, user account, and macOS security settings. You should keep your device and OS up to date.</li>
+      </ul>
+
+      <h2 id="retention">Retention and deletion of Google user data</h2>
+      <p><strong>Retention while you use MailJay:</strong></p>
+      <ul>
+        <li>OAuth tokens remain in Keychain until you disconnect the Google account in MailJay, clear related Keychain items, or remove the app’s data.</li>
+        <li>Local triage caches and category settings remain on your Mac while the account is connected so the app can show prior results and preferences.</li>
+        <li>Message content sent to TypeSafe is processed to return a classification; MailJay does not keep a separate Secondfret cloud archive of that content. Retention by TypeSafe or Google is governed by their policies.</li>
+      </ul>
+      <p><strong>How to delete data associated with MailJay:</strong></p>
+      <ul>
+        <li><strong>Disconnect in the app:</strong> Removing or disconnecting a Gmail account in MailJay deletes that account’s OAuth token from MailJay’s Keychain storage and clears that account’s local triage cache and category files on your Mac.</li>
+        <li><strong>Revoke access in Google:</strong> You can also revoke MailJay’s access at any time in your Google Account’s third-party app settings. After revocation, MailJay can no longer call the Gmail API with those credentials until you connect again.</li>
+        <li><strong>Uninstall / remove local files:</strong> Deleting the MailJay app and its Application Support / preferences data removes remaining local caches and preferences from your Mac. You can also delete Keychain items associated with MailJay if any remain.</li>
+        <li><strong>Gmail mailbox content:</strong> Archive or Trash actions you approve change your Gmail mailbox itself. Those changes (and emptying Trash) are controlled in Gmail / Google Account settings, not by a Secondfret server retention clock.</li>
+      </ul>
+      <p>Because Secondfret does not store your Google user data on our servers, there is no separate Secondfret cloud retention period for mailbox contents. Once local app data is cleared and Google access is revoked, Secondfret retains no Google user mailbox data from MailJay.</p>
 
       <h2>Where data is stored</h2>
       <ul>
@@ -91,9 +140,9 @@
 
       <h2>Third-party services</h2>
       <ul>
-        <li><strong>Google / Gmail:</strong> authentication and Gmail API access. Google’s own policies apply to your Google account.</li>
-        <li><strong>TypeSafe Jev:</strong> MailJay sends message text/snippets and your category criteria to TypeSafe’s API using <em>your</em> API key so Jev can return a category suggestion. TypeSafe’s policies apply to that processing.</li>
-        <li><strong>Sparkle / Cloudflare:</strong> the app may check for updates and download signed update packages from MailJay’s Cloudflare-hosted release site. Update checks do not include your Gmail content.</li>
+        <li><strong>Google / Gmail:</strong> authentication and Gmail API access. See <a href="https://policies.google.com/privacy">Google’s Privacy Policy</a>.</li>
+        <li><strong>TypeSafe Jev:</strong> classification of message text using your API key. See TypeSafe’s terms and privacy documentation for how they handle API requests.</li>
+        <li><strong>Sparkle / Cloudflare:</strong> optional app update checks and download of signed update packages from MailJay’s Cloudflare-hosted release site. Update checks do not include your Gmail content.</li>
       </ul>
 
       <h2>What MailJay does not do</h2>
@@ -101,6 +150,7 @@
         <li>No ads, no analytics SDKs, and no sale of personal information.</li>
         <li>No permanent delete from Gmail via the app’s delete action — messages are moved to Gmail Trash.</li>
         <li>No archive, trash, or label changes until you explicitly approve them in the app.</li>
+        <li>No transfer of Google user data for advertising or data-broker purposes.</li>
       </ul>
 
       <h2>Children</h2>
